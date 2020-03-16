@@ -43,29 +43,41 @@ export default {
           pullUpLoad:this.pullUpLoad
         })
 
-        //监听滚动的位置
-        this.scroll.on('scroll',(position) => {
-          //将监听的滚动事件传送出去
-          this.$emit('scroll',position);
-        })
-
-        //监听上拉事件
-        this.scroll.on('pullingUp',() => {
-          //将监听的上拉事件传送出去
-          this.$emit('pullingUp');
-        })
+        //监听滚动的位置,在probeType为2或3时才需监听
+        if(this.probeType === 2 || this.probeType ===3){
+          this.scroll.on('scroll',(position) => {
+            //将监听的滚动事件传送出去
+            this.$emit('scroll',position);
+          })
+        }
+        
+        //监听上拉事件--监听scroll滚动到底部
+        if(this.pullUpLoad){
+          this.scroll.on('pullingUp',() => {
+            //将监听的上拉事件传送出去
+            this.$emit('pullingUp');
+          })
+        }
       }
     })
   },
   methods:{
+    //严谨做法
+    //this.scroll在该scroll对象初始化完成里面有值时再进行操作，否则会易出现该对象为空，则会无法调取到scroll对象里的方法等
     //封装BScroll实例的scrollTo方法, 以便在外访问组件时可直接调用scrollTo方法
     scrollTo(x,y,time=500){
-      this.scroll.scrollTo(x,y,time);
+      this.scroll && this.scroll.scrollTo(x,y,time);
     },
     //当上拉加载数据加载完毕后，需要调用此方法告诉 better-scroll 数据已加载
     //否则再次上拉加载数据时，不能再次出发上拉事件
     finishPullUp(){
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.finishPullUp();
+    },
+    refresh(){
+      this.scroll && this.scroll.refresh();
+    },
+    getScrollY(){
+      return this.scroll ? this.scroll.y : 0;
     }
   }
 }

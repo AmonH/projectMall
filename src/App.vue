@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
     
     <!-- 使用时可用横杠隔开 -->
     <main-tab-bar />

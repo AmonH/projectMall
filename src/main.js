@@ -5,6 +5,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//初始化一个全局的事件总线,Vue实例可以作为事件总线
+Vue.prototype.$bus = new Vue()
+
 new Vue({
   router,
   store,

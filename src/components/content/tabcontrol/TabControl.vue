@@ -15,6 +15,7 @@ export default {
   props:{
     titleDatas:{
       type:Array,
+      //type是对象或数组时，default写成函数形式
       default(){
         return []
       }
